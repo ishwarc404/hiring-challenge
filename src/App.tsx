@@ -13,6 +13,8 @@ export function App() {
   const { data: paginatedTransactions, ...paginatedTransactionsUtils } = usePaginatedTransactions()
   const { data: transactionsByEmployee, ...transactionsByEmployeeUtils } = useTransactionsByEmployee()
   const [isLoadingDropdown, setIsLoadingDropdown] = useState(false)
+  // This fixed both pt1 and pt2
+  // Don't really need the other loading flag I guess
   const [isLoading, setIsLoading] = useState(false)
   const [transactions, setAllTransactions] = useState<Transaction[] | null>(null)
 
