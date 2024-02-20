@@ -43,8 +43,10 @@ export function App() {
 
   const loadTransactionsByEmployee = useCallback(
     async (employeeId: string) => {
+      setIsLoading(true)
       paginatedTransactionsUtils.invalidateData()
       await transactionsByEmployeeUtils.fetchById(employeeId)
+      setIsLoading(false)
     },
     [paginatedTransactionsUtils, transactionsByEmployeeUtils]
   )
@@ -94,7 +96,7 @@ export function App() {
           {transactions !== null && (
             <button
               className="RampButton"
-              disabled={paginatedTransactionsUtils.loading}
+              disabled={isLoading}
               onClick={async () => {
                 await loadAllTransactions()
               }}
