@@ -93,7 +93,7 @@ export function App() {
         <div className="RampGrid">
           <Transactions transactions={transactions} />
 
-          {transactions !== null && (
+          {transactions !== null && !isLoading && (
             <button
               className="RampButton"
               disabled={isLoading}
