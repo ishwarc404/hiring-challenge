@@ -12,6 +12,7 @@ export function App() {
   const { data: employees, ...employeeUtils } = useEmployees()
   const { data: paginatedTransactions, ...paginatedTransactionsUtils } = usePaginatedTransactions()
   const { data: transactionsByEmployee, ...transactionsByEmployeeUtils } = useTransactionsByEmployee()
+  const [isLoadingDropdown, setIsLoadingDropdown] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [transactions, setAllTransactions] = useState<Transaction[] | null>(null)
 
@@ -29,11 +30,12 @@ export function App() {
 
   const loadAllTransactions = useCallback(async () => {
     setIsLoading(true)
+    setIsLoadingDropdown(true)
     transactionsByEmployeeUtils.invalidateData()
 
     await employeeUtils.fetchAll()
+    setIsLoadingDropdown(false)
     await paginatedTransactionsUtils.fetchAll()
-
     setIsLoading(false)
   }, [employeeUtils, paginatedTransactionsUtils, transactionsByEmployeeUtils])
 
@@ -59,7 +61,7 @@ export function App() {
         <hr className="RampBreak--l" />
 
         <InputSelect<Employee>
-          isLoading={isLoading}
+          isLoading={isLoadingDropdown}
           defaultValue={EMPTY_EMPLOYEE}
           items={employees === null ? [] : [EMPTY_EMPLOYEE, ...employees]}
           label="Filter by employee"
